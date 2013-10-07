@@ -3,8 +3,11 @@
 # by Silviu Vulcan
 # http://www.silviuvulcan.ro http://github.com/silviuvulcan/
 # 
-GIT="$(which git)"
+
 CONF="/usr/local/etc/ba-backup.conf"
+GIT="$(type -P git)" || { echo >&2 "git seems to be missing and it is required."; exit 1; }
+type -P curl >/dev/null 2>&1 || { echo >&2 "curl seems to be missing and it is required."; exit 1; }
+type -P awk >/dev/null 2>&1 || { echo >&2 "awk seems to be missing and it is required."; exit 1; }
 
 if [ -f $CONF ]; then
     . $CONF
