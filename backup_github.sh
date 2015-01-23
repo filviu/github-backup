@@ -4,7 +4,7 @@
 # http://www.silviuvulcan.ro http://github.com/silviuvulcan/
 # 
 
-CONF="/usr/local/etc/ba-backup.conf"
+CONF="/usr/local/etc/backup_github.conf"
 GIT="$(type -P git)" || { echo >&2 "git seems to be missing and it is required."; exit 1; }
 type -P curl >/dev/null 2>&1 || { echo >&2 "curl seems to be missing and it is required."; exit 1; }
 type -P awk >/dev/null 2>&1 || { echo >&2 "awk seems to be missing and it is required."; exit 1; }
@@ -12,12 +12,12 @@ type -P awk >/dev/null 2>&1 || { echo >&2 "awk seems to be missing and it is req
 if [ -f $CONF ]; then
     . $CONF
 else 
-    echo "Could not find $CONF, cannot continue."
+    >&2 echo "Could not find $CONF, cannot continue."
     exit 1
 fi
 
 if [ ! -d $BACKUPDIR ]; then
-    echo "Backup target $BACKUPDIR was not found, please create and/or check permissions"
+    >&2 echo "Backup target $BACKUPDIR was not found, please create and/or check permissions"
     exit 1
 fi
 
@@ -32,7 +32,7 @@ while read REPOURL; do
         echo
     else
         echo "Backing up $REPONAME for the first time"
-        $GIT clone --mirror $REPOURL $BACKUPDIR/$REPONAME
+        $GIT clone --mirror --quiet $REPOURL $BACKUPDIR/$REPONAME
         echo
     fi
 
