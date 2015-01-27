@@ -28,7 +28,7 @@ while read REPOURL; do
 
     if [ -d $BACKUPDIR/$REPONAME ]; then 
         echo "$REPONAME was already backed up, updating..."
-        $GIT --git-dir $BACKUPDIR/$REPONAME remote update
+        $GIT --git-dir $BACKUPDIR/$REPONAME fetch --quiet origin
         echo
     else
         echo "Backing up $REPONAME for the first time"
